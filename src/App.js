@@ -7,17 +7,9 @@ function App() {
   const [isDown, setIsDown] = useState(false);
   const [start, setStart] = useState(0);
   const [move, setMove] = useState(0);
-  const [scroll, setScroll] = useState(0);
-  const [scrolled, setScrolled] = useState(0);
-  const [total, setTotal] = useState();
-  let scrollLeft;
-
   const mouseDown = (e) => {
     setIsDown(true);
-    setStart(e.pageX - e.target.offsetLeft);
-    // console.log(start);
-    // e.target.scrollLeft = scroll + start * 2;
-    setScroll(e.target.scrollLeft);
+    setStart(e.pageX);
   };
   const mouseLeave = (e) => {
     setIsDown(false);
@@ -28,15 +20,8 @@ function App() {
   const mouseMove = (e) => {
     if (!isDown) return;
     e.preventDefault();
-    // e.stopPropagation();
-    // e.stopImmediatePropagation();
-    // console.log({ move, start, scrolled });
-    setMove(e.pageX - e.target.offsetLeft);
-    // console.log({ move, start });
-    setScrolled(move - start);
-    setTotal(scroll - scrolled);
-    // e.target.scrollLeft = total;
-    console.log(total);
+    setMove(e.pageX - start);
+    console.log(move);
   };
 
   return (
@@ -48,10 +33,7 @@ function App() {
         onMouseMove={(e) => mouseMove(e)}
         style={{ left: `0px` }}
         className={`forScroll ${isDown ? "active" : ""}`}
-        style={{ left: `${total / 10}%` }}
-        onTouchStart={(e) => mouseDown(e)}
-        onTouchEnd={(e) => mouseUp(e)}
-        onTouchMove={(e) => mouseMove(e)}
+        style={{ left: `${move}px` }}
       >
         <span>1620</span>
         <span>1630</span>
@@ -66,7 +48,9 @@ function App() {
       <span>
         <ArrowDropUpIcon sx={{ color: grey[800] }} />
       </span>
-      <Content total={total} />
+      <Content
+      //  total={total}
+      />
     </div>
   );
 }
